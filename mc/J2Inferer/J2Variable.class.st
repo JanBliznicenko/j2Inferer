@@ -107,7 +107,8 @@ J2Variable >> removeAllSubtypes [
 
 { #category : #accessing }
 J2Variable >> subtypes [
-	^ subtypes ifNil:[ Set new]
+
+	^ subtypes ifNil: [ subtypes := Set new ]
 ]
 
 { #category : #accessing }
