@@ -140,12 +140,9 @@ J2Expression >> minClassesInContext: aContext [
 { #category : #'calculating type' }
 J2Expression >> minClassesInContext: aContext alreadyEvaluated: alreadyEvaluated [
 	| singleImplementor r |
-	(alreadyEvaluated includesKey: {self. aContext contents})
-		ifTrue: [ 
-			^ alreadyEvaluated at:{self. aContext contents}
-		].
-	alreadyEvaluated at: {self. aContext contents} put:(J2Type empty).
-	r := self filter: (self generateMinClassesInContext: aContext alreadyEvaluated: alreadyEvaluated) byMessages: self selectors .
+	alreadyEvaluated at: {self. aContext contents} ifPresent: [:found | ^ found] ifAbsentPut: [J2Type empty].
+	
+	r := self filter: (self generateMinClassesInContext: aContext alreadyEvaluated: alreadyEvaluated) byMessages: self selectors.
 	
 	(self inferer config singleImplementorEnabled and:[ r isEmpty ]) ifTrue: [ 
 		singleImplementor := self inferer singleImplementorOf: self selectors.
