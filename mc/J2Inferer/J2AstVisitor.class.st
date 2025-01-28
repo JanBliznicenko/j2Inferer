@@ -2,10 +2,8 @@
 This visitor generates all the variables and relationships that then is used in the analysis of the type graph.
 "
 Class {
-	#name : #J2AstVisitor,
-	#superclass : #Object,
-	#traits : 'TRBProgramNodeVisitor',
-	#classTraits : 'TRBProgramNodeVisitor classTrait',
+	#name : #J2ProgramNodeVisitor,
+	#superclass : #OCProgramNodeVisitor,
 	#instVars : [
 		'method',
 		'inferer',
@@ -16,29 +14,29 @@ Class {
 }
 
 { #category : #accessing }
-J2AstVisitor >> container [
+J2ProgramNodeVisitor >> container [
 	^containerStack top
 ]
 
 { #category : #accessing }
-J2AstVisitor >> inferer [
+J2ProgramNodeVisitor >> inferer [
 	^ J2Inferer instance
 ]
 
 { #category : #accessing }
-J2AstVisitor >> initialize [
+J2ProgramNodeVisitor >> initialize [
 	super initialize.
 	containerStack := Stack new.
 	numberOfBlocks := 0.
 ]
 
 { #category : #accessing }
-J2AstVisitor >> method [
+J2ProgramNodeVisitor >> method [
 	^ method
 ]
 
 { #category : #accessing }
-J2AstVisitor >> method: anObject [
+J2ProgramNodeVisitor >> method: anObject [
 	| classContainer |
 	
 	method := anObject.
@@ -56,18 +54,18 @@ J2AstVisitor >> method: anObject [
 ]
 
 { #category : #accessing }
-J2AstVisitor >> popContainer [
+J2ProgramNodeVisitor >> popContainer [
 	^ containerStack pop.
 ]
 
 { #category : #accessing }
-J2AstVisitor >> pushContainer: aNewContainer [
+J2ProgramNodeVisitor >> pushContainer: aNewContainer [
 	containerStack push: aNewContainer.
 	self inferer anASTContainerCreated:aNewContainer for:aNewContainer element.
 ]
 
 { #category : #accessing }
-J2AstVisitor >> visitArrayNode: anArrayNode [
+J2ProgramNodeVisitor >> visitArrayNode: anArrayNode [
 	| elements |
 	anArrayNode children do: [ :each | self visitNode: each ].
 	self container
@@ -81,7 +79,7 @@ J2AstVisitor >> visitArrayNode: anArrayNode [
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitAssignmentNode: anAssignmentNode [
+J2ProgramNodeVisitor >> visitAssignmentNode: anAssignmentNode [
 	| variable |
 	
 	self visitNode: anAssignmentNode variable.
@@ -95,7 +93,7 @@ J2AstVisitor >> visitAssignmentNode: anAssignmentNode [
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitBlockNode: aBlockNode [
+J2ProgramNodeVisitor >> visitBlockNode: aBlockNode [
 	| blk |
 	numberOfBlocks := numberOfBlocks + 1.
 	
@@ -128,14 +126,14 @@ J2AstVisitor >> visitBlockNode: aBlockNode [
 ]
 
 { #category : #accessing }
-J2AstVisitor >> visitCascadeNode: aCascadeNode [ 
+J2ProgramNodeVisitor >> visitCascadeNode: aCascadeNode [ 
 	aCascadeNode messages do: [:each | self visitNode: each].
 	self container atExpression: aCascadeNode ifAbsentPut: [self container atExpression:(aCascadeNode messages last)]
 	
 ]
 
 { #category : #accessing }
-J2AstVisitor >> visitGlobalNode: aGlobalVariableNode [
+J2ProgramNodeVisitor >> visitGlobalNode: aGlobalVariableNode [
 
 	aGlobalVariableNode isClassVariable 
 		ifTrue: [ ^ self ].
@@ -144,19 +142,19 @@ J2AstVisitor >> visitGlobalNode: aGlobalVariableNode [
 ]
 
 { #category : #accessing }
-J2AstVisitor >> visitLiteralArrayNode: aRBLiteralArrayNode [
+J2ProgramNodeVisitor >> visitLiteralArrayNode: aRBLiteralArrayNode [
 	self container
 		atExpression: aRBLiteralArrayNode
 		ifAbsentPut: [ self inferer arrayLiteral: aRBLiteralArrayNode ]
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitLiteralNode: aLiteralNode [
+J2ProgramNodeVisitor >> visitLiteralNode: aLiteralNode [
 	^self inferer addLiteralVariable: aLiteralNode
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitMessageNode: aMessageNode [
+J2ProgramNodeVisitor >> visitMessageNode: aMessageNode [
 	(aMessageNode isCascaded not or: [ aMessageNode isFirstCascaded ])
 		ifTrue: [ self visitNode: aMessageNode receiver ].
 	aMessageNode arguments do: [ :each | self visitNode: each ].
@@ -164,7 +162,7 @@ J2AstVisitor >> visitMessageNode: aMessageNode [
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitMethodNode: aMethodNode [ 
+J2ProgramNodeVisitor >> visitMethodNode: aMethodNode [ 
 	self visitArgumentNodes: aMethodNode arguments.
 	aMethodNode pragmas
 		do: [ :each | self visitNode: each ].
@@ -173,14 +171,14 @@ J2AstVisitor >> visitMethodNode: aMethodNode [
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitReturnNode: aReturnNode [
+J2ProgramNodeVisitor >> visitReturnNode: aReturnNode [
 
 	self visitNode: aReturnNode value.
 	self container addReturnSubtype: (self container atExpression: aReturnNode value)
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitSelfNode: aSelfNode [
+J2ProgramNodeVisitor >> visitSelfNode: aSelfNode [
 
 	^ self container
 		atExpression: aSelfNode
@@ -188,25 +186,25 @@ J2AstVisitor >> visitSelfNode: aSelfNode [
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitSuperNode: aSuperNode [
+J2ProgramNodeVisitor >> visitSuperNode: aSuperNode [
 	^ self container
 		atExpression: aSuperNode
 		ifAbsentPut: [ self inferer selfVariable ]
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitTemporaryNode: aNode [
+J2ProgramNodeVisitor >> visitTemporaryNode: aNode [
 	self container addTemporaryVariableFor: aNode
 ]
 
 { #category : #visiting }
-J2AstVisitor >> visitTemporaryNodes: aNodeCollection [
+J2ProgramNodeVisitor >> visitTemporaryNodes: aNodeCollection [
 	"This is triggered when defining the temporaries between the pipes"
 
 	^ aNodeCollection do:[ :e | self visitTemporaryNode: e]
 ]
 
 { #category : #accessing }
-J2AstVisitor >> visitThisContextNode: aThisContextNode [
+J2ProgramNodeVisitor >> visitThisContextNode: aThisContextNode [
 	^ self container atExpression: aThisContextNode ifAbsentPut: [ self inferer thisContextVariable]
 ]
