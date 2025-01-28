@@ -1,27 +1,29 @@
 Class {
-	#name : #J2IdentityEqualsPredefinedMethod,
-	#superclass : #J2AbstractPredefinedMethod,
-	#category : #'J2Inferer-PredefinedMethods'
+	#name : 'J2IdentityEqualsPredefinedMethod',
+	#superclass : 'J2AbstractPredefinedMethod',
+	#category : 'J2Inferer-PredefinedMethods',
+	#package : 'J2Inferer',
+	#tag : 'PredefinedMethods'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2IdentityEqualsPredefinedMethod >> config [
 	selectors := #(#==)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2IdentityEqualsPredefinedMethod >> parameters [
 	^#()
 ]
 
-{ #category : #applying }
+{ #category : 'applying' }
 J2IdentityEqualsPredefinedMethod >> remainingContextFor: aMessage onContext: alreadyEvaluated [
 	"There is nothing remaining, all the elements in the context are used"
 
 	^ J2Context empty
 ]
 
-{ #category : #applying }
+{ #category : 'applying' }
 J2IdentityEqualsPredefinedMethod >> returnTypeFor: message onContext: aContext alreadyEvaluated: anObject [
 	^ J2Type
 		withClasses:

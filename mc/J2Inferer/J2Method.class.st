@@ -3,8 +3,8 @@ A method is a crucial part in the algorithm.
 It does contains the parameters and the return type. 
 "
 Class {
-	#name : #J2Method,
-	#superclass : #Object,
+	#name : 'J2Method',
+	#superclass : 'Object',
 	#traits : 'TJ2WithParameters',
 	#classTraits : 'TJ2WithParameters classTrait',
 	#instVars : [
@@ -14,10 +14,12 @@ Class {
 		'updated',
 		'returnValue'
 	],
-	#category : #'J2Inferer-Variables'
+	#category : 'J2Inferer-Variables',
+	#package : 'J2Inferer',
+	#tag : 'Variables'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2Method >> = other [
 
 	^ self class = other class and: [
@@ -25,82 +27,82 @@ J2Method >> = other [
 			  selector = other selector ] ]
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 J2Method >> addReturnSubtype: anExpression [
 	self returnValue addSubtype: anExpression
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> classTypeInfo [
 	^ classTypeInfo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> classTypeInfo: anObject [
 	classTypeInfo := anObject
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 J2Method >> cleanForUpdate [
 	self returnValue removeAllSubtypes.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2Method >> fillReturn [
 	returnValue := (J2Variable newOnClass: classTypeInfo )
 		variableName: '^';
 		yourself
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 J2Method >> forceUpdate [
 	updated := false.
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2Method >> hash [
 
 	^ (self class hash bitXor: classTypeInfo hash) bitXor: selector hash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> inferer [
 	^ J2Inferer instance
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2Method >> initialize [
 	super initialize.
 	updated := false.
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> isUpdated [
 	^ updated.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> method [
 	^ self classTypeInfo analysedClass >> selector.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> name [
 	^ self method name , ' @ ', self classTypeInfo name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> parameters [
 	^ parameters ifNil:[#()]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> parameters: aValue [
 	parameters := aValue.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> printOn: aStream [
 	aStream
 		nextPutAll: 'a J2Method (';
@@ -108,33 +110,33 @@ J2Method >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> returnValue [
 	^returnValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> returnValue: aValue [.
 	returnValue := aValue.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> selector [
 	^ selector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Method >> selector: anObject [
 	selector := anObject
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 J2Method >> updateIfNeeded [
 
 	self isUpdated ifTrue: [ ^ self ].
 	self inferer notifier openingMethod: self.
 	self cleanForUpdate.
-	J2AstVisitor new
+	J2ProgramNodeVisitor new
 		method: self;
 		visitNode: self method ast.
 	updated := true.

@@ -2,17 +2,19 @@
 This container represents the context used in a method.
 "
 Class {
-	#name : #J2MethodBasedContainer,
-	#superclass : #J2ExpressionContainer,
-	#category : 'J2Inferer-AST'
+	#name : 'J2MethodBasedContainer',
+	#superclass : 'J2ExpressionContainer',
+	#category : 'J2Inferer-AST',
+	#package : 'J2Inferer',
+	#tag : 'AST'
 }
 
-{ #category : #'return type' }
+{ #category : 'return type' }
 J2MethodBasedContainer >> addReturnSubtype: anExpression [
 	self element addReturnSubtype: anExpression.
 ]
 
-{ #category : #variables }
+{ #category : 'variables' }
 J2MethodBasedContainer >> addTemporaryVariableFor: aNode [
 	| aName |
 	aName := aNode infererSource.
@@ -24,19 +26,19 @@ J2MethodBasedContainer >> addTemporaryVariableFor: aNode [
 				yourself ]
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 J2MethodBasedContainer >> atExpression: anExpression [
 	^ self innerExpressions
 		at: anExpression infererSource
 		ifAbsent: [ self variableFor: anExpression ]
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 J2MethodBasedContainer >> atExpression: anExpression ifAbsentPut: aBlock [
 	self innerExpressions at: anExpression infererSource ifAbsentPut: aBlock
 ]
 
-{ #category : #checks }
+{ #category : 'checks' }
 J2MethodBasedContainer >> checkDefaultReturnExpression [
 	| selfExpr |
 	self element returnValue hasNoSubtypes
@@ -47,12 +49,12 @@ J2MethodBasedContainer >> checkDefaultReturnExpression [
 			self element returnValue addSubtype: selfExpr ]
 ]
 
-{ #category : #container }
+{ #category : 'container' }
 J2MethodBasedContainer >> containerClass [
 	^ self element classTypeInfo
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 J2MethodBasedContainer >> isMethodContext [
 	^ true
 ]

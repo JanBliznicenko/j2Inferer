@@ -2,25 +2,26 @@
 This class represents a calling context in the inference process.
 "
 Class {
-	#name : #J2Context,
-	#superclass : #Object,
+	#name : 'J2Context',
+	#superclass : 'Object',
 	#instVars : [
 		'contents'
 	],
-	#category : #J2Inferer
+	#category : 'J2Inferer',
+	#package : 'J2Inferer'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2Context class >> empty [
 	^ self with: #().
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2Context class >> new [
 	self error: 'use the other messages.'.
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2Context class >> with: contents [
 	| cs | 
 	cs := contents.
@@ -33,35 +34,35 @@ J2Context class >> with: contents [
 		yourself
 ]
 
-{ #category : #'derived contexts' }
+{ #category : 'derived contexts' }
 J2Context >> collect: aBlock [
 
 	^ contents collect: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Context >> contents [
 	^ contents 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Context >> contents: anObject [
 	contents := anObject
 ]
 
-{ #category : #'derived contexts' }
+{ #category : 'derived contexts' }
 J2Context >> metaClassContext [
 
 	^ self class with: self metaClasses
 ]
 
-{ #category : #'derived contexts' }
+{ #category : 'derived contexts' }
 J2Context >> metaClasses [
 
 	^ self collect: #metaClass
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 J2Context >> printOn: aStream [
 
 	super printOn: aStream.
@@ -70,13 +71,13 @@ J2Context >> printOn: aStream [
 	aStream nextPut: $)
 ]
 
-{ #category : #'derived contexts' }
+{ #category : 'derived contexts' }
 J2Context >> superClassContext [
 
 	^ self class with: self superclasses
 ]
 
-{ #category : #'derived contexts' }
+{ #category : 'derived contexts' }
 J2Context >> superclasses [
 
 	| collection |

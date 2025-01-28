@@ -3,8 +3,8 @@ Represents the relationship of the receiver expression and the message sent.
 Including logic to resolve the receiver, the arguments of the message and the possible returntype.
 "
 Class {
-	#name : #J2Message,
-	#superclass : #J2Expression,
+	#name : 'J2Message',
+	#superclass : 'J2Expression',
 	#traits : 'TJ2IsBlock',
 	#classTraits : 'TJ2IsBlock classTrait',
 	#instVars : [
@@ -12,10 +12,12 @@ Class {
 		'selector',
 		'parameters'
 	],
-	#category : #'J2Inferer-Variables'
+	#category : 'J2Inferer-Variables',
+	#package : 'J2Inferer',
+	#tag : 'Variables'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2Message class >> addMessageSent: aMessageNode container: container inferer: inferer receiver: receiver parameters: parameters [
 	| msg |
 	msg := aMessageNode isSuperSend 
@@ -32,7 +34,7 @@ J2Message class >> addMessageSent: aMessageNode container: container inferer: in
 	^ msg
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2Message >> = other [
 
 	^ self class = other class and: [
@@ -40,18 +42,18 @@ J2Message >> = other [
 			  receiver = other receiver and: [ selector = other selector ] ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> addSupertype: anotherVariable [.
 	"A message cannot have a supertype of another expression."
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> containerClass [
 
 	^ container
 ]
 
-{ #category : #blocks }
+{ #category : 'blocks' }
 J2Message >> doBlocksOn: aContext alreadyEvaluated: alreadyEvaluated [
 	| methods |
 	methods := self methodsForReceivingContext: aContext.
@@ -60,7 +62,7 @@ J2Message >> doBlocksOn: aContext alreadyEvaluated: alreadyEvaluated [
 			[ :each | each returnValue blocksOn: aContext alreadyEvaluated: alreadyEvaluated ]
 ]
 
-{ #category : #blocks }
+{ #category : 'blocks' }
 J2Message >> doIsBlockOn: aContext alreadyEvaluated: alreadyEvaluated [
 	| methods |
 	methods := self methodsForReceivingContext: aContext.
@@ -69,7 +71,7 @@ J2Message >> doIsBlockOn: aContext alreadyEvaluated: alreadyEvaluated [
 			[ :each | each returnValue isBlockOn: aContext alreadyEvaluated: alreadyEvaluated ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> elements [
 	^ J2Variable
 		unionAll: (self methods collect: [ :m | m returnValue elements ])
@@ -78,7 +80,7 @@ J2Message >> elements [
 		inferer: self inferer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> generateMinClassesInContext: aContext alreadyEvaluated: alreadyEvaluated [
 	| receiverType remainingContext receiverContext resultType|
 	receiverType := receiver minClassesInContext: aContext alreadyEvaluated: alreadyEvaluated.
@@ -102,14 +104,14 @@ J2Message >> generateMinClassesInContext: aContext alreadyEvaluated: alreadyEval
 	^ resultType
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2Message >> hash [
 
 	^ ((self class hash bitXor: container hash) bitXor: receiver hash)
 		  bitXor: selector hash
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2Message >> methodsForReceivingContext: aContext [ 
 	| receiverContext |
 	"Returns the methods for this message previously calculating the receiving context."
@@ -117,28 +119,28 @@ J2Message >> methodsForReceivingContext: aContext [
 	^self methodsOn: receiverContext .
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> methodsOn: context [
 	^ self inferer implementorsFor: self onContext: context
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> parameters [
 	^ parameters ifNil:[#()].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> parameters1 [
 	^ parameters
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> parameters: anObject [
 	(anObject isNil or:[anObject isEmpty]) ifTrue:[parameters := nil].
 	parameters := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 J2Message >> printOn: aStream [
 	super printOn: aStream.
 	aStream
@@ -149,27 +151,27 @@ J2Message >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> receiver [
 	^ receiver
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> receiver: anObject [
 	receiver := anObject.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> receivingContextOn: aContext [
 	^ J2Context with: (receiver minClassesInContext: aContext)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> selector [
 	^ selector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Message >> selector: anObject [
 	selector := anObject
 ]

@@ -2,8 +2,8 @@
 This objects represents a priority run queue. 
 "
 Class {
-	#name : #J2TaskQueue,
-	#superclass : #Object,
+	#name : 'J2TaskQueue',
+	#superclass : 'Object',
 	#instVars : [
 		'queue',
 		'notifier',
@@ -11,10 +11,12 @@ Class {
 		'runTasks',
 		'inQueue'
 	],
-	#category : #'J2Inferer-Tasks-Queue'
+	#category : 'J2Inferer-Tasks-Queue',
+	#package : 'J2Inferer',
+	#tag : 'Tasks-Queue'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2TaskQueue >> clearQueue [
 	self runLevelInterval
 		do: [ :e | 
@@ -22,7 +24,7 @@ J2TaskQueue >> clearQueue [
 			inQueue at: e put: Set new ]
 ]
 
-{ #category : #enqueuing }
+{ #category : 'enqueuing' }
 J2TaskQueue >> enqueue: aTask [
 	"The task knows if has to be enqueue in the queue. Maybe there is nothing to do."
 	(aTask shouldEnqueue)
@@ -34,7 +36,7 @@ J2TaskQueue >> enqueue: aTask [
 					(inQueue at: aTask runLevel) add: aTask ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 J2TaskQueue >> findInQueue: aTask [
 	| s |
 	s := inQueue at: aTask runLevel.
@@ -42,19 +44,19 @@ J2TaskQueue >> findInQueue: aTask [
 	
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 J2TaskQueue >> handleError: anError onTask: aTask [
 	(aTask class canPerform: #onError:)
 		ifTrue: [ aTask onError: anError ]
 		ifFalse: [ self notifier onError: anError ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2TaskQueue >> hasTasks [
 	^ queue values anySatisfy: [ :e | e isNotEmpty ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2TaskQueue >> initialize [
 	super initialize.
 	queue := Dictionary new: self numberOfRunLevels.
@@ -64,7 +66,7 @@ J2TaskQueue >> initialize [
 	self clearQueue.
 ]
 
-{ #category : #enqueuing }
+{ #category : 'enqueuing' }
 J2TaskQueue >> merge: aTask orDo: aBlock [
 	| anotherTask | 
 	anotherTask := self findInQueue: aTask.
@@ -72,28 +74,28 @@ J2TaskQueue >> merge: aTask orDo: aBlock [
 		anotherTask mergeWith: aTask].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2TaskQueue >> notifier [
 	^ notifier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2TaskQueue >> notifier: anObject [
 	notifier := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2TaskQueue >> numberOfRunLevels [
 	^ 5
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2TaskQueue >> pendingTasksStatistics [
 	^ ', ' join: (queue associations collect: [ :e | e key asString , ':', e value size asString  ]).
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 J2TaskQueue >> pickTaskToExecute [
 
 	self runLevelInterval do: [ :e |
@@ -101,7 +103,7 @@ J2TaskQueue >> pickTaskToExecute [
 	CollectionIsEmpty signal
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 J2TaskQueue >> runAndWait [
 	"Run all the pending tasks and all the generated lated  without returning the control"
 	notifier startingProcess.
@@ -117,12 +119,12 @@ J2TaskQueue >> runAndWait [
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 J2TaskQueue >> runLevelInterval [
 	^(1 to: self numberOfRunLevels)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 J2TaskQueue >> runOne [
 	"Runs the first task in the queue."
 
@@ -140,7 +142,7 @@ J2TaskQueue >> runOne [
 			Processor yield ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2TaskQueue >> size [
 	^ queue values sum: #size.
 ]

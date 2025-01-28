@@ -2,17 +2,19 @@
 This container represents the context generated in a block.
 "
 Class {
-	#name : #J2BlockBasedContainer,
-	#superclass : #J2ExpressionContainer,
-	#category : 'J2Inferer-AST'
+	#name : 'J2BlockBasedContainer',
+	#superclass : 'J2ExpressionContainer',
+	#category : 'J2Inferer-AST',
+	#package : 'J2Inferer',
+	#tag : 'AST'
 }
 
-{ #category : #'return type' }
+{ #category : 'return type' }
 J2BlockBasedContainer >> addReturnSubtype: anExpression [
 	self parent addReturnSubtype: anExpression.
 ]
 
-{ #category : #variables }
+{ #category : 'variables' }
 J2BlockBasedContainer >> addTemporaryVariableFor: aNode [
 	| aName |
 	aName := aNode infererSource.
@@ -28,7 +30,7 @@ J2BlockBasedContainer >> addTemporaryVariableFor: aNode [
 						yourself) ]
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 J2BlockBasedContainer >> atExpression: aNode [
 	^ element
 		parameterFor: aNode infererSource
@@ -36,17 +38,17 @@ J2BlockBasedContainer >> atExpression: aNode [
 			[ temporaryVariables at: aNode infererSource ifAbsent: [ parent atExpression: aNode ] ]
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 J2BlockBasedContainer >> atExpression: aNode ifAbsentPut: aBlock [  
 	parent atExpression: aNode ifAbsentPut: aBlock.
 ]
 
-{ #category : #container }
+{ #category : 'container' }
 J2BlockBasedContainer >> containerClass [
 	^ self parent containerClass
 ]
 
-{ #category : #variables }
+{ #category : 'variables' }
 J2BlockBasedContainer >> hasTemporaryVariable: aName [
 	^ (super hasTemporaryVariable: aName) or:[ parent hasTemporaryVariable: aName].
 ]

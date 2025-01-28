@@ -2,16 +2,18 @@
 These objects represents the relationship between a parameter and the argument passed in the message.
 "
 Class {
-	#name : #J2ParameterRelationship,
-	#superclass : #Object,
+	#name : 'J2ParameterRelationship',
+	#superclass : 'Object',
 	#instVars : [
 		'expression',
 		'isMeta'
 	],
-	#category : 'J2Inferer-Variables'
+	#category : 'J2Inferer-Variables',
+	#package : 'J2Inferer',
+	#tag : 'Variables'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2ParameterRelationship class >> for: anExpression isMeta: isMeta [
 	^ self new
 		expression: anExpression;
@@ -19,12 +21,12 @@ J2ParameterRelationship class >> for: anExpression isMeta: isMeta [
 		yourself
 ]
 
-{ #category : #subtyping }
+{ #category : 'subtyping' }
 J2ParameterRelationship >> addSupertype: aVariable [ 
 	expression addSupertype: aVariable.
 ]
 
-{ #category : #'minimal types' }
+{ #category : 'minimal types' }
 J2ParameterRelationship >> blocksOn: aContext alreadyEvaluated: alreadyEvaluated [
 	"I have to change the context if is the meta class the receiver"
 
@@ -35,17 +37,17 @@ J2ParameterRelationship >> blocksOn: aContext alreadyEvaluated: alreadyEvaluated
 	^ expression blocksOn: aContext alreadyEvaluated: alreadyEvaluated
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterRelationship >> expression [
 	^ expression
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterRelationship >> expression: anObject [
 	expression := anObject
 ]
 
-{ #category : #'minimal types' }
+{ #category : 'minimal types' }
 J2ParameterRelationship >> isBlockOn: aContext alreadyEvaluated: alreadyEvaluated [
 	"I have to change the context if is the meta class the receiver"
 
@@ -56,17 +58,17 @@ J2ParameterRelationship >> isBlockOn: aContext alreadyEvaluated: alreadyEvaluate
 	^ expression isBlockOn: aContext alreadyEvaluated: alreadyEvaluated
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterRelationship >> isMeta [
 	^ isMeta
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterRelationship >> isMeta: anObject [
 	isMeta := anObject
 ]
 
-{ #category : #'minimal types' }
+{ #category : 'minimal types' }
 J2ParameterRelationship >> minClassesInContext: aContext alreadyEvaluated: alreadyEvaluated [
 	"I have to change the context if is the meta class the receiver"
 	| newContext |

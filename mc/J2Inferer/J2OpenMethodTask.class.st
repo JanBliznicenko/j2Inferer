@@ -4,58 +4,60 @@ Open a method. A method is processed if it's not updated.
 Processing a method is opening the AST and creating the relationships.
 "
 Class {
-	#name : #J2OpenMethodTask,
-	#superclass : #J2AbstractTask,
+	#name : 'J2OpenMethodTask',
+	#superclass : 'J2AbstractTask',
 	#instVars : [
 		'method',
 		'methodVariable'
 	],
-	#category : #'J2Inferer-Tasks'
+	#category : 'J2Inferer-Tasks',
+	#package : 'J2Inferer',
+	#tag : 'Tasks'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2OpenMethodTask >> = anotherTask [
 	^ anotherTask compareToOpenMethodTask:self.
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2OpenMethodTask >> compareToOpenMethodTask: anotherTask [
 	^ method == anotherTask method	"I'm using identity because two methods can be the same if they have the same bytecode. It doesn't matter the selector or the hosting class"
 ]
 
-{ #category : #executing }
+{ #category : 'executing' }
 J2OpenMethodTask >> execute [
 	self methodVariable updateIfNeeded.
 
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2OpenMethodTask >> hash [
 	^ method hash.
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2OpenMethodTask >> mergeWith: anotherTask [
 	"Nothing to merge"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2OpenMethodTask >> method [
 	^ method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2OpenMethodTask >> method: anObject [
 
 	method := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2OpenMethodTask >> methodVariable [
 	^ methodVariable ifNil: [ methodVariable := self inferer methodVariableFor: method ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 J2OpenMethodTask >> printOn: aStream [
 	super printOn: aStream.
 	aStream
@@ -64,12 +66,12 @@ J2OpenMethodTask >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2OpenMethodTask >> runLevel [
 	^ 1.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2OpenMethodTask >> shouldEnqueue [
 	^ self methodVariable isUpdated not.
 ]

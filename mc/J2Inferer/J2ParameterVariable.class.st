@@ -3,17 +3,19 @@ This variable represents the binding between an argument in the message and the 
 It build a stronger relationship when the sender and the receiver are the same class or hierarchy.
 "
 Class {
-	#name : #J2ParameterVariable,
-	#superclass : #Object,
+	#name : 'J2ParameterVariable',
+	#superclass : 'Object',
 	#instVars : [
 		'message',
 		'index',
 		'expression'
 	],
-	#category : 'J2Inferer-Variables'
+	#category : 'J2Inferer-Variables',
+	#package : 'J2Inferer',
+	#tag : 'Variables'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2ParameterVariable class >> onMessage: aMessage index:anIndex [
 	| v |
 	v := self new.
@@ -22,7 +24,7 @@ J2ParameterVariable class >> onMessage: aMessage index:anIndex [
 	^v
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> allSelectors: alreadyEvaluated onContext: context [
 	| all |
 	(alreadyEvaluated includes: self)
@@ -36,7 +38,7 @@ J2ParameterVariable >> allSelectors: alreadyEvaluated onContext: context [
 	^ all
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> buildRelationships: variable container: container [
 	| containerClass methodVariable |
 	variable addSupertype: self.
@@ -55,7 +57,7 @@ J2ParameterVariable >> buildRelationships: variable container: container [
 				
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> class: containerClass isInHierarchyOf: method [
 	| methodClass methodMetaClass|
 	methodClass := method methodClass.
@@ -72,37 +74,37 @@ J2ParameterVariable >> class: containerClass isInHierarchyOf: method [
 	^ false.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> classTypeInfo [ 
 	^ self expression classTypeInfo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> expression [
 	^ expression
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> expression: anObject [
 	expression := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> index [
 	^ index
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> index: anObject [
 	index := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> message [
 	^ message
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ParameterVariable >> message: anObject [
 	message := anObject
 ]

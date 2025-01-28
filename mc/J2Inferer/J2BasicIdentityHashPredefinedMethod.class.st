@@ -1,27 +1,29 @@
 Class {
-	#name : #J2BasicIdentityHashPredefinedMethod,
-	#superclass : #J2AbstractPredefinedMethod,
-	#category : #'J2Inferer-PredefinedMethods'
+	#name : 'J2BasicIdentityHashPredefinedMethod',
+	#superclass : 'J2AbstractPredefinedMethod',
+	#category : 'J2Inferer-PredefinedMethods',
+	#package : 'J2Inferer',
+	#tag : 'PredefinedMethods'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2BasicIdentityHashPredefinedMethod >> config [
 	selectors := #(#basicIdentityHash)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BasicIdentityHashPredefinedMethod >> parameters [
 	^#()
 ]
 
-{ #category : #applying }
+{ #category : 'applying' }
 J2BasicIdentityHashPredefinedMethod >> remainingContextFor: aMessage onContext: alreadyEvaluated [
 	"There is nothing remaining, all the elements in the context are used"
 
 	^ J2Context empty
 ]
 
-{ #category : #applying }
+{ #category : 'applying' }
 J2BasicIdentityHashPredefinedMethod >> returnTypeFor: message onContext: aContext alreadyEvaluated: anObject [
 	^ J2Type
 		withClasses:

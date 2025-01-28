@@ -1,1 +1,1 @@
-Package { #name : #J2Inferer }
+Package { #name : 'J2Inferer' }

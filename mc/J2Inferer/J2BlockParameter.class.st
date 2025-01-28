@@ -1,14 +1,16 @@
 Class {
-	#name : #J2BlockParameter,
-	#superclass : #Object,
+	#name : 'J2BlockParameter',
+	#superclass : 'Object',
 	#instVars : [
 		'block',
 		'index'
 	],
-	#category : #'J2Inferer-Variables'
+	#category : 'J2Inferer-Variables',
+	#package : 'J2Inferer',
+	#tag : 'Variables'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2BlockParameter class >> for: aJ2Block index: anIndex [
 	^self new
 			block: aJ2Block;
@@ -16,22 +18,22 @@ J2BlockParameter class >> for: aJ2Block index: anIndex [
 			yourself.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockParameter >> addSupertype: aVariable [
 	"Nothing to do"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockParameter >> block [
 	^ block
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockParameter >> block: anObject [
 	block := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockParameter >> blocksOn: aContext alreadyEvaluated: alreadyEvaluated [
 	"I propagate the evaluation to the actual parameter in the block"
 
@@ -40,17 +42,17 @@ J2BlockParameter >> blocksOn: aContext alreadyEvaluated: alreadyEvaluated [
 		  alreadyEvaluated: alreadyEvaluated
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockParameter >> index [
 	^ index
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockParameter >> index: anObject [
 	index := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockParameter >> isBlockOn: aContext alreadyEvaluated: alreadyEvaluated [
 	"I propagate the evaluation to the actual parameter in the block"
 
@@ -59,7 +61,7 @@ J2BlockParameter >> isBlockOn: aContext alreadyEvaluated: alreadyEvaluated [
 		  alreadyEvaluated: alreadyEvaluated
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockParameter >> minClassesInContext: aContext alreadyEvaluated: alreadyEvaluated [
 	"I propagate the evaluation to the actual parameter in the block"
 

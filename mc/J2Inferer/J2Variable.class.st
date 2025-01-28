@@ -4,23 +4,25 @@ A variable has a container and can returns its possible classes.
 
 "
 Class {
-	#name : #J2Variable,
-	#superclass : #J2Expression,
+	#name : 'J2Variable',
+	#superclass : 'J2Expression',
 	#traits : 'TJ2IsBlock',
 	#classTraits : 'TJ2IsBlock classTrait',
 	#instVars : [
 		'variableName',
 		'subtypes'
 	],
-	#category : #'J2Inferer-Variables'
+	#category : 'J2Inferer-Variables',
+	#package : 'J2Inferer',
+	#tag : 'Variables'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2Variable class >> emptyOnClass: aClass [
 	^self newOnClass: aClass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2Variable class >> unionAll: anotherVariables name: aName container: aContainer inferer: inferer [
 	| var |
 	var := self emptyOnClass: aContainer.
@@ -29,7 +31,7 @@ J2Variable class >> unionAll: anotherVariables name: aName container: aContainer
 	^ var
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2Variable >> = other [
 
 	^ self class = other class and: [
@@ -37,28 +39,28 @@ J2Variable >> = other [
 			  variableName = other variableName ] ]
 ]
 
-{ #category : #'adding types' }
+{ #category : 'adding types' }
 J2Variable >> addSubtype: anotherVariable [
 
 	self subtypes add: anotherVariable.
 	anotherVariable addSupertype: self
 ]
 
-{ #category : #blocks }
+{ #category : 'blocks' }
 J2Variable >> doBlocksOn: aContext alreadyEvaluated: alreadyEvaluated [
 	^ self subtypes
 		flatCollect:
 			[ :each | each blocksOn: aContext alreadyEvaluated: alreadyEvaluated ]
 ]
 
-{ #category : #blocks }
+{ #category : 'blocks' }
 J2Variable >> doIsBlockOn: aContext alreadyEvaluated: alreadyEvaluated [
 	^ self subtypes
 		anySatisfy:
 			[ :each | each isBlockOn: aContext alreadyEvaluated: alreadyEvaluated ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Variable >> elements [
 	^ J2Variable
 		unionAll: (self subtypes collect: #elements)
@@ -67,7 +69,7 @@ J2Variable >> elements [
 		inferer: self inferer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Variable >> generateMinClassesInContext: aContext alreadyEvaluated: alreadyEvaluated [
 	| type |
 	type := J2Type empty.
@@ -75,23 +77,23 @@ J2Variable >> generateMinClassesInContext: aContext alreadyEvaluated: alreadyEva
 	^ type
 ]
 
-{ #category : #queryng }
+{ #category : 'queryng' }
 J2Variable >> hasNoSubtypes [
 	^self subtypes isEmpty
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 J2Variable >> hash [
 
 	^ (self class hash bitXor: container hash) bitXor: variableName hash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Variable >> name [
 	^ variableName
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 J2Variable >> printOn: aStream [
 	super printOn: aStream.
 	aStream
@@ -100,23 +102,23 @@ J2Variable >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #'adding types' }
+{ #category : 'adding types' }
 J2Variable >> removeAllSubtypes [
 	subtypes := nil.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Variable >> subtypes [
 
 	^ subtypes ifNil: [ subtypes := Set new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Variable >> variableName [
 	^ variableName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Variable >> variableName: anObject [
 	variableName := anObject
 ]

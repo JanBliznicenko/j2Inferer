@@ -2,8 +2,8 @@
 This class has all the common behavior between all the Notifiers.
 "
 Class {
-	#name : #J2AbstractNotifier,
-	#superclass : #Object,
+	#name : 'J2AbstractNotifier',
+	#superclass : 'Object',
 	#instVars : [
 		'inferer',
 		'logLevels',
@@ -11,64 +11,65 @@ Class {
 		'startTime',
 		'endTime'
 	],
-	#category : #J2Inferer
+	#category : 'J2Inferer',
+	#package : 'J2Inferer'
 }
 
-{ #category : #closing }
+{ #category : 'closing' }
 J2AbstractNotifier >> close [
 	"do nothing unless needed by subclass"
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 J2AbstractNotifier >> doLog: aValuable level: logLevel [.
 	self subclassResponsibility 
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> endProcess [
 	endTime := DateAndTime now.
 	self log:['Process Finished. It took: ' , (endTime - startTime) asString ] level:#info.
 
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> enqueueMethod: aMethod [
 	self log:['Enqueueing a method: ', aMethod name] level:#debug.
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> fillingClass: aClass [ 
 		self log: ['Filling Class:', aClass name] level:#debug.
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> generatedClass: aClass [ 
 	self log: ['Generated Class:', aClass name] level:#debug
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> generatingClass: aClass [ 
 	self log: ['Generating Class:', aClass name] level:#debug
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 J2AbstractNotifier >> hasToLog: level [
 	| levelValue |
 	levelValue := logLevels at:level ifAbsent:9.
 	^ currentLogLevel >= levelValue.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2AbstractNotifier >> inferer [
 	^ inferer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2AbstractNotifier >> inferer: anObject [
 	inferer := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2AbstractNotifier >> initialize [
 	super initialize.
 	logLevels:=Dictionary new.
@@ -80,14 +81,14 @@ J2AbstractNotifier >> initialize [
 
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 J2AbstractNotifier >> log: aValuable level:logLevel [
 	(self hasToLog: logLevel) ifFalse: [ ^self ].
 	^self doLog: aValuable level:logLevel.
 
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 J2AbstractNotifier >> logClasses [
 	| ordered |.
 	ordered := SortedCollection new.
@@ -95,37 +96,37 @@ J2AbstractNotifier >> logClasses [
 	ordered do:[:e | self log:e level:#info].
 ]
 
-{ #category : #logging }
+{ #category : 'logging' }
 J2AbstractNotifier >> logStatistics [
 	self log: [inferer statistics] level:#info.
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> onError: anError [
 	anError pass.
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> openMethod: aMethod [ 
 	self log: ['Method Opened:', aMethod name] level:#debug
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> openingMessage: aMessage [
 	self log: ['Opening a Message:' , aMessage selector] level:#debug
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> openingMethod: aMethod [ 
 	self log:['Opening Method:', aMethod name] level:#debug
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> pendingTasks: numberOfTasks speed: speed [
 	self log:[inferer statistics , ' speed: ' , speed asString] level:#info
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 J2AbstractNotifier >> startingProcess [
 	startTime := DateAndTime now.
 	self log:['Starting inferer process'] level:#info

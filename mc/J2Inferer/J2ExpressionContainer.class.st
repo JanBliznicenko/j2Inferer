@@ -2,18 +2,20 @@
 This is the abstract parent of all the containers that can have inside expressions and subexpressions. 
 "
 Class {
-	#name : #J2ExpressionContainer,
-	#superclass : #J2AbstractContainer,
+	#name : 'J2ExpressionContainer',
+	#superclass : 'J2AbstractContainer',
 	#instVars : [
 		'parent',
 		'innerExpressions',
 		'temporaryVariables',
 		'element'
 	],
-	#category : #'J2Inferer-AST'
+	#category : 'J2Inferer-AST',
+	#package : 'J2Inferer',
+	#tag : 'AST'
 }
 
-{ #category : #messages }
+{ #category : 'messages' }
 J2ExpressionContainer >> addMessageSentTo: aMessage [
 	| rcvr msg |
 	rcvr := self atExpression: aMessage receiver.
@@ -26,76 +28,76 @@ J2ExpressionContainer >> addMessageSentTo: aMessage [
 	self atExpression: aMessage ifAbsentPut:  msg.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> atExpression: aNode [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> atExpression: aNode ifAbsentPut: aBlock [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> element [
 	^ element
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> element: anObject [
 	element := anObject
 ]
 
-{ #category : #variables }
+{ #category : 'variables' }
 J2ExpressionContainer >> hasTemporaryVariable: aName [
 	^ temporaryVariables includesKey: aName
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2ExpressionContainer >> initialize [
 	super initialize.
 	temporaryVariables := Dictionary new.
 	innerExpressions := Dictionary new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> innerExpressions [
 	^ innerExpressions
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> innerExpressions: anObject [
 	innerExpressions := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 J2ExpressionContainer >> isMethodContext [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> parent [
 	^ parent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> parent: anObject [
 	parent := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> temporaryVariables [
 	^ temporaryVariables
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2ExpressionContainer >> temporaryVariables: anObject [
 	temporaryVariables := anObject
 ]
 
-{ #category : #variables }
+{ #category : 'variables' }
 J2ExpressionContainer >> variableFor: aNode [
 	| aName |
 	aName := aNode infererSource.

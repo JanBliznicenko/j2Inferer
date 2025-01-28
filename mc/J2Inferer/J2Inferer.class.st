@@ -9,8 +9,8 @@ This object has all the type data principally:
 Check the J2InfererManager for examples of how to use it.
 "
 Class {
-	#name : #J2Inferer,
-	#superclass : #Object,
+	#name : 'J2Inferer',
+	#superclass : 'Object',
 	#instVars : [
 		'classes',
 		'queue',
@@ -29,37 +29,38 @@ Class {
 	#classVars : [
 		'instance'
 	],
-	#category : #J2Inferer
+	#category : 'J2Inferer',
+	#package : 'J2Inferer'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2Inferer class >> default [
 	^ self withNotifier: J2NullNotifier new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Inferer class >> instance [
 	^ instance ifNil:[ instance := self default ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Inferer class >> instance: anInstance [
 	^ instance := anInstance
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2Inferer class >> new [
 	^ self error: 'Use default or withNotifier:'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2Inferer class >> resetInstance [
 
 	<script>
 	^ instance := nil
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 J2Inferer class >> withNotifier: aNotifier [
 	instance := self basicNew.
 	^ instance
@@ -69,7 +70,7 @@ J2Inferer class >> withNotifier: aNotifier [
 
 ]
 
-{ #category : #'creating globals' }
+{ #category : 'creating globals' }
 J2Inferer >> addGlobalVariable: aGlobalNode [
 	
 	globals
@@ -77,7 +78,7 @@ J2Inferer >> addGlobalVariable: aGlobalNode [
 		ifAbsentPut: [ J2GlobalVariable new variableName: aGlobalNode name; yourself ]
 ]
 
-{ #category : #'creating globals' }
+{ #category : 'creating globals' }
 J2Inferer >> addLiteralVariable: aLiteralNode [
 	^literals at:aLiteralNode value class ifAbsentPut:[
 			J2Literal new literalClass: (self typeInfoFor: aLiteralNode value class); 
@@ -85,12 +86,12 @@ J2Inferer >> addLiteralVariable: aLiteralNode [
 		]
 ]
 
-{ #category : #'ast visiting' }
+{ #category : 'ast visiting' }
 J2Inferer >> anASTContainerCreated:aContainer for:aVariable [
 	astContainerListener ifNotNil: [ astContainerListener anASTContainerCreated: aContainer for: aVariable ]
 ]
 
-{ #category : #'accesing type variables' }
+{ #category : 'accesing type variables' }
 J2Inferer >> arrayLiteral: aArrayLiteralNode [
    | elements literal |
 	elements := (aArrayLiteralNode contents collect:[:e | self typeInfoFor: e value class]) asSet asArray.
@@ -105,33 +106,33 @@ J2Inferer >> arrayLiteral: aArrayLiteralNode [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Inferer >> classes [
 	^ classes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Inferer >> config [
 	 ^config.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Inferer >> context [
 	^ J2Context with: self classes
 ]
 
-{ #category : #'tasks operations' }
+{ #category : 'tasks operations' }
 J2Inferer >> enqueueAllMethodsUpdated [
 	queue enqueue: J2AllMethodsUpdatedTask new
 ]
 
-{ #category : #'tasks operations' }
+{ #category : 'tasks operations' }
 J2Inferer >> enqueueClass: aClass [
 
 	aClass methodsDo: [ :m | self enqueueMethod: m ]
 ]
 
-{ #category : #'tasks operations' }
+{ #category : 'tasks operations' }
 J2Inferer >> enqueueMethod: aMethod [
 	notifier enqueueMethod: aMethod.
 	aMethod ifNil:[^self].
@@ -143,7 +144,7 @@ J2Inferer >> enqueueMethod: aMethod [
 
 ]
 
-{ #category : #'tasks operations' }
+{ #category : 'tasks operations' }
 J2Inferer >> enqueueOpenMethodsFromMessage: aMessage [
 
 	queue
@@ -154,7 +155,7 @@ J2Inferer >> enqueueOpenMethodsFromMessage: aMessage [
 				yourself)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2Inferer >> enqueueRelateMethod: aMethod variableIndex: index parameterVariable: parameterVariable [
 	queue
 		enqueue:
@@ -165,24 +166,24 @@ J2Inferer >> enqueueRelateMethod: aMethod variableIndex: index parameterVariable
 				yourself)
 ]
 
-{ #category : #'implementors-queries' }
+{ #category : 'implementors-queries' }
 J2Inferer >> implementorsFor: aMessage onContext: aContext [
 	^ ((aContext contents collect: [ :each | each lookupSelector: aMessage selector ]) reject: #isNil)
 		collect: [ :m | self methodVariableFor: m ]
 ]
 
-{ #category : #'implementors-queries' }
+{ #category : 'implementors-queries' }
 J2Inferer >> implementorsOf: selector [
 	^ self implementorsRegistry implementorsOf: selector
 ]
 
-{ #category : #'implementors-queries' }
+{ #category : 'implementors-queries' }
 J2Inferer >> implementorsOf: aSelector onContext: aContext [
 	^ ((aContext collect: [ :each | each lookupSelector:aSelector ]) reject:#isNil) collect:[ :m | self methodVariableFor: m].
 
 ]
 
-{ #category : #'implementors-queries' }
+{ #category : 'implementors-queries' }
 J2Inferer >> implementorsRegistry [
 	implementors
 		ifNil: [ 
@@ -191,26 +192,26 @@ J2Inferer >> implementorsRegistry [
 	^ implementors
 ]
 
-{ #category : #infering }
+{ #category : 'infering' }
 J2Inferer >> inferClass: aClass [
 	self enqueueClass: aClass.
 	self runAndWait.
 ]
 
-{ #category : #infering }
+{ #category : 'infering' }
 J2Inferer >> inferClasses: aBunch [
 	aBunch do:[:aClass | self enqueueClass: aClass].
 	self runAndWait.
 	
 ]
 
-{ #category : #infering }
+{ #category : 'infering' }
 J2Inferer >> inferMethod: aMethod [
 	self enqueueMethod: aMethod.
 	self runAndWait.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2Inferer >> initPredefinedMessages [
 	" This message initialize all the configuration for the predefined messages."
 
@@ -218,7 +219,7 @@ J2Inferer >> initPredefinedMessages [
 		predefinedMessages add: (each forInferer: self) ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2Inferer >> initialize [
 	config := J2InfererConfig new.
 	
@@ -237,7 +238,7 @@ J2Inferer >> initialize [
 
 ]
 
-{ #category : #'accesing type variables' }
+{ #category : 'accesing type variables' }
 J2Inferer >> methodVariableFor: aMethod [
 	| aClass classTypeInfo  |
 	aClass := aMethod methodClass.
@@ -245,49 +246,49 @@ J2Inferer >> methodVariableFor: aMethod [
 	^ classTypeInfo methodTypeFor: aMethod.
 ]
 
-{ #category : #notifier }
+{ #category : 'notifier' }
 J2Inferer >> notifier [
 	^ notifier
 ]
 
-{ #category : #notifier }
+{ #category : 'notifier' }
 J2Inferer >> notifier: aNotifier [
 	notifier := aNotifier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Inferer >> predefinedMessages [
 	^ predefinedMessages 
 ]
 
-{ #category : #'ast visiting' }
+{ #category : 'ast visiting' }
 J2Inferer >> registerASTContainerListener: aListener [
 	astContainerListener := aListener.
 ]
 
-{ #category : #'tasks operations' }
+{ #category : 'tasks operations' }
 J2Inferer >> runAndWait [
 	queue runAndWait
 ]
 
-{ #category : #'single instance variables' }
+{ #category : 'single instance variables' }
 J2Inferer >> selfVariable [
 	^ selfVariable ifNil: [ selfVariable := J2Self new. ].
 ]
 
-{ #category : #'implementors-queries' }
+{ #category : 'implementors-queries' }
 J2Inferer >> singleImplementorOf: aBunchOfMessages [
 	^self implementorsRegistry singleImplementorOf: aBunchOfMessages
 ]
 
-{ #category : #statistics }
+{ #category : 'statistics' }
 J2Inferer >> statistics [
 	^ 'Classes: ' , classes size asString , ' Literals: ' , literals size asString
 		, ' Globals: ' , globals size asString , ' Methods: '
 		, (classes sum: #numberOfMethods) asString , ' Queue Size: ' , queue size asString , ' content: ', queue pendingTasksStatistics
 ]
 
-{ #category : #'single instance variables' }
+{ #category : 'single instance variables' }
 J2Inferer >> thisContextVariable [
 	^ thisContextVariable
 		ifNil:
@@ -296,7 +297,7 @@ J2Inferer >> thisContextVariable [
 				yourself ]
 ]
 
-{ #category : #'accesing type variables' }
+{ #category : 'accesing type variables' }
 J2Inferer >> typeInfoFor: aClass [
 	| cls variableClass |
 	^ classes
@@ -314,17 +315,17 @@ J2Inferer >> typeInfoFor: aClass [
 			cls ]
 ]
 
-{ #category : #'ast visiting' }
+{ #category : 'ast visiting' }
 J2Inferer >> unregisterASTContainerListener: aListener [
 	astContainerListener := nil.
 ]
 
-{ #category : #'accesing type variables' }
+{ #category : 'accesing type variables' }
 J2Inferer >> variableFor: aNode [
 	^ self variableFor: aNode ifAbsent: [ self error: 'Undefined expression:' , aNode ]
 ]
 
-{ #category : #'accesing type variables' }
+{ #category : 'accesing type variables' }
 J2Inferer >> variableFor: aNode ifAbsent: aValuable [
 	| aName |
 	aName := aNode infererSource.

@@ -2,20 +2,22 @@
 A bunch of useful class side messages to test and use the inference system.
 "
 Class {
-	#name : #J2InferenceManager,
-	#superclass : #Object,
+	#name : 'J2InferenceManager',
+	#superclass : 'Object',
 	#classInstVars : [
 		'stats'
 	],
-	#category : #'J2Inferer-Utils'
+	#category : 'J2Inferer-Utils',
+	#package : 'J2Inferer',
+	#tag : 'Utils'
 }
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 J2InferenceManager class >> clearInferer [
 	J2Inferer resetInstance.
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 J2InferenceManager class >> deserializeFromFile: aFileName [
 	| aStream materializer | 
 	aStream := GZipReadStream on: (FileStream fileNamed: aFileName). 
@@ -29,7 +31,7 @@ J2InferenceManager class >> deserializeFromFile: aFileName [
 	
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 J2InferenceManager class >> findRelatedClassesTo: aSetOfClasses [
 
 	| classes |
@@ -45,7 +47,7 @@ J2InferenceManager class >> findRelatedClassesTo: aSetOfClasses [
 	^ classes
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 J2InferenceManager class >> findTransitiveRelatedClassesTo: aSetOfClasses [
 
 	| repetitions originalClassesAmount classes |
@@ -59,7 +61,7 @@ J2InferenceManager class >> findTransitiveRelatedClassesTo: aSetOfClasses [
 	^ classes
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 J2InferenceManager class >> inferAllInstalation [
 	" J2Scripts inferAllInstalation"
 
@@ -77,7 +79,7 @@ J2InferenceManager class >> inferAllInstalation [
 	^ J2Inferer instance
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 J2InferenceManager class >> inferPackage: aPackage [
 
 	J2Inferer instance ifNil: [
@@ -94,7 +96,7 @@ J2InferenceManager class >> inferPackage: aPackage [
 	^ J2Inferer instance
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 J2InferenceManager class >> inferRelatedOfPackage: aPackage [
 
 	| classesToInfer |
@@ -113,7 +115,7 @@ J2InferenceManager class >> inferRelatedOfPackage: aPackage [
 	^ J2Inferer instance
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 J2InferenceManager class >> serializeToFile: aFileName [
 	| aStream  serializer | 
 	aStream := GZipWriteStream on: (File named: aFileName) writeStream. 

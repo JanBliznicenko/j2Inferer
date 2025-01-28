@@ -5,15 +5,17 @@ The containers can be structured in a herarchical way.
 If a container does not have an expression should ask it parent before adding a new one.
 "
 Class {
-	#name : #J2AbstractContainer,
-	#superclass : #Object,
+	#name : 'J2AbstractContainer',
+	#superclass : 'Object',
 	#instVars : [
 		'inferer'
 	],
-	#category : 'J2Inferer-AST'
+	#category : 'J2Inferer-AST',
+	#package : 'J2Inferer',
+	#tag : 'AST'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2AbstractContainer >> inferer [
 	^ J2Inferer instance
 ]

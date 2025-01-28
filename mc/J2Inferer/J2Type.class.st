@@ -2,27 +2,29 @@
 This objects represents the result of calculating a type of an expression.
 "
 Class {
-	#name : #J2Type,
-	#superclass : #Object,
+	#name : 'J2Type',
+	#superclass : 'Object',
 	#instVars : [
 		'minClasses'
 	],
-	#category : #'J2Inferer-Types'
+	#category : 'J2Inferer-Types',
+	#package : 'J2Inferer',
+	#tag : 'Types'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2Type class >> empty [
 	^ self new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2Type class >> withClass: aClass [
 	^ self new
 		minClasses: (Set with:aClass);
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2Type class >> withClasses: aCollection [
 	| classes |
 	classes := aCollection ifNotNil: [ Set newFrom: aCollection ] ifNil: [ Set new ].
@@ -31,7 +33,7 @@ J2Type class >> withClasses: aCollection [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Type >> classes [
 
 	| results remainings |
@@ -65,38 +67,38 @@ J2Type >> classes [
 	^ results
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 J2Type >> collect: aBlock [
 
 	^ self classes collect: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Type >> filter: aMessageSet [
 	minClasses removeAllSuchThat: [ :c | (aMessageSet allSatisfy: [ :m | c canUnderstand: m ]) not ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Type >> ifEmpty: aBlock [
 	self minClasses ifEmpty: aBlock.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Type >> initialize [
 	minClasses := Set new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Type >> minClasses [
 	^ minClasses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Type >> minClasses: anObject [
 	minClasses := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2Type >> union: anotherType [
 	self minClasses addAll: anotherType minClasses.
 ]

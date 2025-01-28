@@ -2,22 +2,24 @@
 A global variable. It has a special behavior compared with the J2Variable.
 "
 Class {
-	#name : #J2GlobalVariable,
-	#superclass : #J2Variable,
-	#category : 'J2Inferer-Variables'
+	#name : 'J2GlobalVariable',
+	#superclass : 'J2Variable',
+	#category : 'J2Inferer-Variables',
+	#package : 'J2Inferer',
+	#tag : 'Variables'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2GlobalVariable class >> new [
 	^ self newOnClass: nil.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2GlobalVariable >> generateMinClassesInContext: aContext alreadyEvaluated: alreadyEvaluated [
 	self error.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 J2GlobalVariable >> minClassesInContext: aContext alreadyEvaluated: alreadyEvaluated [
 	| value |
 	value := Smalltalk globals at: self name ifAbsent: [ ^ J2Type new ].

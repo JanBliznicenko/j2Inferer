@@ -2,36 +2,38 @@
 These object handles the ""value"" messages of a block.
 "
 Class {
-	#name : #J2BlockPredefinedMethod,
-	#superclass : #J2AbstractPredefinedMethod,
-	#category : 'J2Inferer-PredefinedMethods'
+	#name : 'J2BlockPredefinedMethod',
+	#superclass : 'J2AbstractPredefinedMethod',
+	#category : 'J2Inferer-PredefinedMethods',
+	#package : 'J2Inferer',
+	#tag : 'PredefinedMethods'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 J2BlockPredefinedMethod >> config [
 	implementingClasses := {inferer typeInfoFor: BlockClosure}.
 	parametersTypes := #().
 	selectors := #(value value: value:value: value:value:value: value:value:value:value:).
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 J2BlockPredefinedMethod >> parameters [
 	^#()
 ]
 
-{ #category : #'testing if can handle' }
+{ #category : 'testing if can handle' }
 J2BlockPredefinedMethod >> parametersMatches: aMessage onContext: aContext [
 	^ true.
 ]
 
-{ #category : #applying }
+{ #category : 'applying' }
 J2BlockPredefinedMethod >> remainingContextFor: aMessage onContext: aContext [
 	"There is nothing remaining, all the elements in the context are used"
 
 	^ J2Context empty
 ]
 
-{ #category : #applying }
+{ #category : 'applying' }
 J2BlockPredefinedMethod >> returnTypeFor: message onContext: aContext alreadyEvaluated: alreadyEvaluated [
 	| blocks returnType |
 	blocks := message receiver blocksOn: aContext.
